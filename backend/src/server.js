@@ -1,23 +1,14 @@
-// simple node web server that displays hello world
-// optimized for Docker image
-
 const express = require("express");
-// this example uses express web framework so we know what longer build times
-// do and how Dockerfile layer ordering matters. If you mess up Dockerfile ordering
-// you'll see long build times on every code change + build. If done correctly,
-// code changes should be only a few seconds to build locally due to build cache.
-
 const morgan = require("morgan");
-// morgan provides easy logging for express, and by default it logs to stdout
-// which is a best practice in Docker. Friends don't let friends code their apps to
-// do app logging to files in containers.
-
+const bodyParser = require("body-parser");
 const database = require("./database");
 
 // Appi
 const app = express();
 
 app.use(morgan("common"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/version", function(req, res, next) {
   database.raw('select VERSION() version')
@@ -31,6 +22,35 @@ app.get("/healthz", function(req, res) {
   // you should return 200 if healthy, and anything else will fail
   // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
   res.send("I am happy and healthy\n");
+});
+
+app.post('/contact', function(req, res, next) {
+  const { name, email, message } = req.body;
+  database('contacts')
+    .insert({ name, email, message, created_at: new Date(), updated_at: new Date() })
+    .then(() => res.status(201).send('Contact information saved'))
+    .catch(next);
+});
+
+
+// Get the n most recent Reviews
+app.get("/reviews", function(req, res, next) {
+  const n = req.query.n || 5;
+  database('reviews')
+    .select('*')
+    .orderBy('created_at', 'desc')
+    .limit(n)
+    .then((reviews) => res.json(reviews))
+    .catch(next);
+});
+
+// Post a Review
+app.post("/reviews", function(req, res, next) {
+  const { name, rating, review } = req.body;
+  database('reviews')
+    .insert({ name, rating, review, created_at: new Date(), updated_at: new Date() })
+    .then(() => res.status(201).send('Review saved'))
+    .catch(next);
 });
 
 module.exports = app;

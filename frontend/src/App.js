@@ -1,33 +1,41 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import logo from './logo.svg';
 import "./App.css";
+import Contact from "./Contact";
+import About from "./About";
+import Reviews from "./Reviews";
+
+const HomePage = () => (
+  <div>
+    <h1>Welcome to Our Dentist Website</h1>
+    <p>Providing excellent dental care for all your needs.</p>
+  </div>
+);
 
 function App() {
-  const [message, setMessage] = useState();
-  useEffect(() => {
-    fetch("/api/version")
-      .then(res => res.json())
-      .then(res => setMessage(res.message))
-      .catch(console.error);
-  }, [setMessage]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{message || "Loading..."}</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <nav>
+            <Link to="/">Home</Link> | <Link to="/contact">Contact</Link> |{" "}
+            <Link to="/reviews">Reviews</Link> | <Link to="/about">About</Link>
+          </nav>
+        </header>
+        <main>
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </Router>
   );
 }
 
