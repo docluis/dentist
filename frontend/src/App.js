@@ -5,6 +5,7 @@ import "./App.css";
 import Contact from "./Contact";
 import About from "./About";
 import Reviews from "./Reviews";
+import ToothMarket from "./ToothMarket";
 
 const HomePage = () => (
   <div>
@@ -31,6 +32,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/about" element={<About />} />
+              <Route path="/toothmarket" element={<ToothMarket />} />
             </Routes>
           </div>
         </main>

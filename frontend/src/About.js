@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const About = () => {
   return (
@@ -11,6 +13,10 @@ const About = () => {
         hygienists are committed to providing the best possible care for your
         oral health.
       </p>
+      <h1>Our other projects:</h1>
+      <nav>
+        <Link to="http://kitchencompany.com/">Kitchen Company</Link> | <Link to="/toothmarket">Secret Tooth Market</Link>
+      </nav>
     </div>
   );
 };
