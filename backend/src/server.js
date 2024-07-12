@@ -53,4 +53,29 @@ app.post("/reviews", function(req, res, next) {
     .catch(next);
 });
 
+// Book an Appointment
+app.post("/book-appointment", function(req, res, next) {
+  const { name, email, service, date } = req.body;
+  database('appointments')
+    .insert({ name, email, service, date, created_at: new Date(), updated_at: new Date() })
+    .then(() => res.status(201).send('Appointment saved'))
+    .catch(next);
+});
+
+// Inquire Service Price
+app.get("/inquire-price", function(req, res, next) {
+  const { service } = req.query;
+  database('prices')
+    .where('service', service)
+    .select('price')
+    .then(([row]) => {
+      if (row) {
+        res.json({ price: row.price });
+      } else {
+        res.status(404).send('Service not found');
+      }
+    })
+    .catch(next);
+});
+
 module.exports = app;
