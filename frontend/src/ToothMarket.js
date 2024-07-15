@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const ToothMarket = () => {
+  useEffect(() => {
+    // simplified fetch request
+    fetch("/api/toothmarket_location", {
+      method: "POST",
+      body: JSON.stringify({ device_location: "Berlin" }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch(console.error);
+  }
+  , []);
+
+
   return (
     <div>
       <h1>Tooth Market</h1>
