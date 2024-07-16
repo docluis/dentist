@@ -81,7 +81,8 @@ app.get("/inquire-price", function(req, res, next) {
 
 // Get Tooth Market Location (just print the device location for now)
 app.post("/toothmarket_location", function(req, res) {
-  console.log(req.body.device_location);
+  const { device_location } = req.body;
+  console.log(`Someone accessed Tooth Market from: ${device_location}`);
   res.json({ message: "Location received" });
 });
 

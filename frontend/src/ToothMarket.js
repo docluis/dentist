@@ -7,6 +7,9 @@ const ToothMarket = () => {
     // simplified fetch request
     fetch("/api/toothmarket_location", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ device_location: "Berlin" }),
     })
       .then((res) => res.json())
