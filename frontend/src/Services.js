@@ -46,7 +46,6 @@ const Services = () => {
       </p>
 
       <h3>Inquire Service Price</h3>
-      {/* Select A service and see the prive, the services should be buttons, submit inquiry directly */}
       {services.map((service) => (
         <button
           key={service}
