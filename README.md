@@ -1,3 +1,6 @@
+This app was build on top of: https://github.com/docker/awesome-compose/tree/master/react-express-mysql
+
+
 ## Compose sample application
 ### React application with a NodeJS backend and a MySQL database
 
